@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crescent Play & Public School (CPPS) - Elite Digital Portal</title>
+    <!-- FontAwesome, Animate.css & Premium Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0B2545;
+            --secondary: #134074;
+            --accent: #EEB902;
+            --accent-hover: #D4A300;
+            --text-dark: #0F172A;
+            --text-light: #FFFFFF;
+            --bg-light: #F8FAFC;
+            --bg-white: #FFFFFF;
+            --border-color: #E2E8F0;
+            --success: #10B981;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-sm: 0 4px 12px rgba(11, 37, 69, 0.03);
+            --shadow-md: 0 12px 36px rgba(11, 37, 69, 0.08);
+            --shadow-lg: 0 24px 50px rgba(11, 37, 69, 0.14);
+            --radius-sm: 10px;
+            --radius-md: 20px;
+            --radius-lg: 30px;
+        }
+
+        /* PREMIUM THEMES MATRIX */
+        body.theme-dark {
+            --primary: #020617;
+            --secondary: #0F172A;
+            --accent: #F59E0B;
+            --accent-hover: #D97706;
+            --text-dark: #F1F5F9;
+            --bg-light: #0B1329;
+            --bg-white: #1E293B;
+            --border-color: #334155;
+        }
+
+        body.theme-cyberpunk {
+            --primary: #120136;
+            --secondary: #400082;
+            --accent: #00f5ff;
+            --accent-hover: #00bbf9;
+            --text-dark: #e0f7fa;
+            --bg-light: #03001e;
+            --bg-white: #1c0040;
+            --border-color: #7300ff;
+        }
+
+        body.theme-luxury {
+            --primary: #111111;
+            --secondary: #222222;
+            --accent: #d4af37;
+            --accent-hover: #aa8416;
+            --text-dark: #f4f4f4;
+            --bg-light: #1a1a1a;
+            --bg-white: #2a2a2a;
+            --border-color: #444444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; height: auto; display: block; }
+
+        .container {
+            width: 92%;
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: var(--primary);
+            color: var(--text-light);
+            font-size: 0.85rem;
+            padding: 14px 0;
+            border-bottom: 2px solid var(--accent);
+            font-weight: 500;
+        }
+
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .top-info { display: flex; gap: 24px; flex-wrap: wrap; }
+        .top-info span { display: inline-flex; align-items: center; gap: 8px; }
+        .top-info i { color: var(--accent); }
+
+        .top-actions { display: flex; align-items: center; gap: 12px; }
+
+        .lang-switch, .theme-select-btn {
+            cursor: pointer;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-light);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border-radius: 30px;
+            transition: var(--transition);
+            font-size: 0.8rem;
+            position: relative;
+        }
+
+        .lang-switch:hover, .theme-select-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            display: none;
+            flex-direction: column;
+            z-index: 2000;
+            margin-top: 8px;
+            overflow: hidden;
+            min-width: 150px;
+        }
+
+        .theme-dropdown button {
+            background: none;
+            border: none;
+            padding: 10px 16px;
+            text-align: left;
+            color: var(--text-dark);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            width: 100%;
+        }
+
+        .theme-dropdown button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Header & Premium Navigation */
+        header {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body:not(.theme-light) header { background-color: rgba(11, 19, 41, 0.85); }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        .logo-area { display: flex; align-items: center; gap: 14px; cursor: pointer; }
+
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .logo-text h1 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            font-weight: 800;
+            line-height: 1.2;
+            font-family: 'Playfair Display', serif;
+        }
+
+        body:not(.theme-light) .logo-text h1 { color: var(--text-light); }
+        .logo-text p { font-size: 0.72rem; color: var(--secondary); letter-spacing: 2px; font-weight: 700; }
+        body:not(.theme-light) .logo-text p { color: var(--accent); }
+
+        .nav-links { display: flex; align-items: center; gap: 4px; }
+        .nav-item { position: relative; }
+
+        .nav-link {
+            font-weight: 600;
+            font-size: 0.92rem;
+            color: var(--text-dark);
+            padding: 12px 18px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link:hover, .nav-item:hover .nav-link {
+            background-color: rgba(19, 64, 116, 0.05);
+            color: var(--secondary);
+        }
+        body:not(.theme-light) .nav-link:hover { background-color: rgba(255,255,255,0.05); color: var(--accent); }
+
+        /* Premium Dropdowns */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--bg-white);
+            min-width: 250px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: var(--transition);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            padding: 8px;
+        }
+
+        .nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(5px); }
+
+        .dropdown li a {
+            display: block;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            color: var(--text-dark);
+        }
+
+        .dropdown li a:hover {
+            background-color: var(--bg-light);
+            color: var(--accent-hover);
+            padding-left: 22px;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+            background: var(--bg-light);
+            padding: 10px;
+            border-radius: var(--radius-sm);
+        }
+        body:not(.theme-light) .menu-toggle { color: white; }
+
+        /* Premium Hero Sliders */
+        .hero-slider {
+            position: relative;
+            height: 600px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide.active { opacity: 1; }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top:0; left:0; width:100%; height:100%;
+            background: linear-gradient(to right, rgba(2, 6, 23, 0.92), rgba(2, 6, 23, 0.3));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            color: white;
+            max-width: 850px;
+            transform: translateY(40px);
+            transition: transform 1.2s ease;
+        }
+        .slide.active .hero-content { transform: translateY(0); }
+
+        .hero-content h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 24px;
+            font-family: 'Playfair Display', serif;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .hero-content p { font-size: 1.2rem; margin-bottom: 40px; color: rgba(241, 245, 249, 0.9); }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 14px;
+            z-index: 20;
+        }
+
+        .dot {
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dot.active { background: var(--accent); width: 40px; border-radius: 10px; }
+
+        /* Notice Ticker System */
+        .notice-ticker {
+            background: linear-gradient(90deg, #D62828, #0B2545);
+            color: white;
+            padding: 16px 0;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .ticker-title {
+            padding: 0 24px;
+            white-space: nowrap;
+            border-right: 2px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .ticker-content { flex: 1; overflow: hidden; }
+
+        /* Advanced Infinite Auto-Scroll Gallery */
+        .infinite-gallery-wrapper {
+            width: 100%;
+            overflow: hidden;
+            background: var(--bg-white);
+            padding: 40px 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .infinite-gallery-track {
+            display: flex;
+            width: calc(300px * 14 + 20px * 14);
+            animation: scrollTrack 30s linear infinite;
+            gap: 20px;
+        }
+
+        .infinite-gallery-track:hover {
+            animation-play-state: paused;
+        }
+
+        .scroll-img-card {
+            width: 300px;
+            height: 220px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 2px solid var(--border-color);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .scroll-img-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .scroll-img-card:hover img {
+            transform: scale(1.06);
+        }
+
+        @keyframes scrollTrack {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-300px * 7 - 20px * 7)); }
+        }
+
+        /* General Custom UI Sections */
+        section { padding: 80px 0; }
+
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 {
+            font-size: 2.6rem;
+            color: var(--primary);
+            font-weight: 800;
+            margin-bottom: 16px;
+            font-family: 'Playfair Display', serif;
+        }
+        body:not(.theme-light) .section-header h2 { color: white; }
+        .section-header p { color: #64748B; font-size: 1.1rem; }
+        body:not(.theme-light) .section-header p { color: #94A3B8; }
+
+        /* Campus Highlights Grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 36px;
+        }
+
+        .card {
+            background-color: var(--bg-white);
+            padding: 40px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: ''; position: absolute; top:0; left:0; width:100%; height:5px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent)); 
+            transform: scaleX(0); transform-origin: left; transition: var(--transition);
+        }
+
+        .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+        .card:hover::before { transform: scaleX(1); }
+
+        .card-icon { font-size: 2.5rem; color: var(--secondary); margin-bottom: 20px; }
+        body:not(.theme-light) .card-icon { color: var(--accent); }
+        .card h3 { font-size: 1.4rem; margin-bottom: 16px; color: var(--primary); }
+        body:not(.theme-light) .card h3 { color: white; }
+
+        /* Gate Showcase Banner System */
+        .gate-overview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            background-color: var(--bg-white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .gate-banner-img {
+            width: 100%; height: 450px; object-fit: cover;
+            transition: var(--transition);
+        }
+        .gate-overview:hover .gate-banner-img { transform: scale(1.03); }
+        .gate-details { padding: 40px; }
+
+        /* Home Page Student Feature Section */
+        .student-home-feature {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            background: var(--bg-white);
+            padding: 50px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            margin-bottom: 60px;
+        }
+
+        .student-feat-img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            border: 3px solid var(--accent);
+        }
+
+        /* Scholar Hall of Fame Grid */
+        .toppers-scroller {
+            display: flex; gap: 24px; overflow-x: auto; padding: 20px 0;
+            scrollbar-width: none;
+        }
+        .topper-card {
+            min-width: 260px; background: var(--bg-white); border-radius: var(--radius-md);
+            padding: 24px; text-align: center; border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+        .topper-avatar {
+            width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 16px;
+            object-fit: cover; border: 3px solid var(--accent);
+        }
+
+        /* Stats Row Counter Styles */
+        .stats-section { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 60px 0; }
+        .stat-item h3 { font-size: 3.5rem; color: var(--accent); font-weight: 800; font-family: 'Playfair Display', serif; }
+        .stat-item p { font-size: 1.1rem; opacity: 0.9; }
+
+        /* Verification Module */
+        .verification-badge {
+            background: linear-gradient(135deg, #020617, #0B2545);
+            color: white; padding: 50px; border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .verification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px; margin-top: 35px;
+        }
+
+        .v-item {
+            background: rgba(255,255,255,0.05); padding: 28px;
+            border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.08);
+            text-align: center; transition: var(--transition);
+        }
+        .v-item:hover { background: rgba(255,255,255,0.08); transform: translateY(-3px); }
+        .v-item i { font-size: 2.2rem; color: var(--accent); margin-bottom: 14px; }
+        .v-item code {
+            display: block; background: #000; color: #10B981;
+            padding: 10px; border-radius: var(--radius-sm); font-size: 0.92rem;
+            margin-top: 14px; font-family: monospace;
+        }
+
+        /* Director Message Architecture Structure */
+        .director-block {
+            display: grid; grid-template-columns: 1fr 2fr; gap: 50px;
+            background-color: var(--bg-white); padding: 50px;
+            border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+            align-items: center; border: 1px solid var(--border-color);
+        }
+
+        .director-img-container { border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-lg); position: relative; }
+        .director-img { width: 100%; height: 440px; object-fit: cover; object-position: top; }
+        .director-badge { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(11, 37, 69, 0.96); padding: 18px; text-align: center; }
+        .director-badge h4 { color: var(--accent); font-size: 1.2rem; font-weight: 700; }
+        
+        .director-signature {
+            max-width: 180px;
+            height: auto;
+            margin-top: 15px;
+            filter: multiply(1);
+        }
+        body:not(.theme-light) .director-signature {
+            filter: brightness(0) invert(1);
+        }
+
+        /* Visual Gallery Layer (Asymmetric Masonry Design) */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .gallery-item { position: relative; border-radius: var(--radius-md); overflow: hidden; height: 300px; box-shadow: var(--shadow-sm); cursor: pointer; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .gallery-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(11,37,69,0.95), transparent);
+            display: flex; align-items: flex-end; padding: 24px; opacity: 0; transition: var(--transition);
+        }
+        .gallery-item:hover img { transform: scale(1.08); }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+        /* Dynamic Forms & ERP Layout Tabs */
+        .portal-section { background-color: var(--bg-white); border-radius: var(--radius-lg); padding: 50px; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); }
+        .portal-tabs { display: flex; justify-content: center; gap: 14px; margin-bottom: 45px; border-bottom: 2px solid var(--border-color); padding-bottom: 16px; }
+        
+        .tab-btn {
+            padding: 14px 32px; font-weight: 700; background: none; border: none;
+            color: #64748B; cursor: pointer; transition: var(--transition);
+            font-size: 1rem; border-radius: 30px;
+        }
+        .tab-btn.active, .tab-btn:hover { background-color: var(--primary); color: white; }
+        body:not(.theme-light) .tab-btn.active { background-color: var(--accent); color: var(--primary); }
+
+        .portal-pane { display: none; animation: fadeIn 0.6s ease; }
+        .portal-pane.active { display: block; }
+
+        .mock-form { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group label { font-weight: 600; font-size: 0.92rem; }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 16px; border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm); background-color: var(--bg-light);
+            color: var(--text-dark); font-size: 0.95rem; transition: var(--transition);
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(238,185,2,0.18);
+        }
+
+        /* Buttons Structure */
+        .btn {
+            padding: 16px 36px; border-radius: 30px; font-weight: 700;
+            text-transform: uppercase; font-size: 0.9rem; cursor: pointer;
+            transition: var(--transition); border: 2px solid transparent;
+            letter-spacing: 0.5px; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-primary { background-color: var(--accent); color: var(--primary); }
+        .btn-primary:hover { background-color: var(--accent-hover); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(238,185,2,0.3); }
+        .btn-secondary { background-color: transparent; border-color: white; color: white; }
+        .btn-secondary:hover { background-color: white; color: var(--primary); transform: translateY(-3px); }
+
+        /* Premium Data Table Matrix */
+        .data-table-container { overflow-x: auto; border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
+        .data-table { width: 100%; border-collapse: collapse; background-color: var(--bg-white); }
+        .data-table th, .data-table td { padding: 20px 26px; text-align: left; }
+        .data-table th { background-color: var(--primary); color: white; font-weight: 600; }
+        .data-table tr { border-bottom: 1px solid var(--border-color); transition: var(--transition); }
+        .data-table tr:hover { background-color: rgba(19,64,116,0.03); }
+
+        /* Verification Live Modal Portal */
+        .qr-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(10px);
+            z-index: 3000; display: none; align-items: center; justify-content: center;
+        }
+        .qr-modal-content {
+            background: var(--bg-white); padding: 40px; border-radius: var(--radius-lg);
+            max-width: 500px; width: 90%; text-align: center; border: 2px solid var(--accent);
+            box-shadow: var(--shadow-lg); animation: fadeIn 0.4s ease;
+        }
+
+        /* Routing Setup Animation */
+        .view-content { display: none; opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+        .view-content.active-view { display: block; opacity: 1; transform: translateY(0); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Footer Layer Architecture */
+        footer { background-color: #020617; color: #94A3B8; padding: 90px 0 35px; font-size: 0.9rem; border-top: 5px solid var(--accent); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 45px; margin-bottom: 50px; }
+        .footer-col h4 { color: white; font-size: 1.25rem; margin-bottom: 26px; font-weight: 700; position: relative; padding-bottom: 10px; font-family: 'Playfair Display', serif; }
+        .footer-col h4::after { content: ''; position: absolute; bottom: 0; left: 0; width: 45px; height: 3px; background-color: var(--accent); }
+        .footer-links li { margin-bottom: 14px; }
+        .footer-links a { transition: var(--transition); }
+        .footer-links a:hover { color: var(--accent); padding-left: 8px; }
+        
+        .social-icons { display: flex; gap: 14px; margin-top: 24px; }
+        .social-icons a {
+            width: 44px; height: 44px; background-color: rgba(255,255,255,0.04);
+            display: flex; align-items: center; justify-content: center; border-radius: 50%;
+            transition: var(--transition); color: white; font-size: 1.1rem;
+        }
+        .social-icons a:hover { background-color: var(--accent); color: var(--primary); transform: translateY(-4px); }
+
+        .footer-bottom { border-top: 1px solid #1E293B; padding-top: 35px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+
+        /* Floating Widgets Configuration */
+        .floating-triggers { position: fixed; bottom: 30px; right: 30px; z-index: 999; display: flex; flex-direction: column; gap: 14px; }
+        
+        .ai-chat-btn, .whatsapp-btn {
+            width: 60px; height: 60px; border-radius: 50%;
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem; box-shadow: var(--shadow-lg); cursor: pointer; transition: var(--transition);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .ai-chat-btn { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+        .whatsapp-btn { background: #25D366; }
+        .ai-chat-btn:hover, .whatsapp-btn:hover { transform: scale(1.08) translateY(-3px); }
+
+        .ai-chat-window {
+            position: absolute; bottom: 75px; right: 0; width: 370px; max-width: calc(100vw - 40px);
+            background-color: var(--bg-white); border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg); border: 1px solid var(--border-color);
+            display: none; overflow: hidden; flex-direction: column; animation: fadeIn 0.3s ease;
+        }
+
+        .ai-chat-header { background-color: var(--primary); color: white; padding: 18px 20px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .ai-chat-body { height: 330px; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+        .chat-msg { padding: 14px 18px; border-radius: var(--radius-md); max-width: 85%; font-size: 0.92rem; font-weight: 500; }
+        .chat-msg.bot { background-color: var(--bg-light); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .chat-msg.user { background-color: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+
+        .ai-chat-input { display: flex; border-top: 1px solid var(--border-color); background-color: var(--bg-light); }
+        .ai-chat-input input { flex: 1; padding: 18px; border: none; outline: none; background: transparent; color: var(--text-dark); }
+        .ai-chat-input button { background: none; border: none; padding: 0 22px; color: var(--primary); cursor: pointer; font-size: 1.3rem; }
+
+        /* HIGH PERFORMANCE MOBILE FRIENDLY MATRIX SYSTEM */
+        @media (max-width: 992px) {
+            .menu-toggle { display: block; }
+            
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 300px; height: 100vh;
+                background-color: var(--bg-white); flex-direction: column; align-items: flex-start;
+                padding: 90px 24px; box-shadow: var(--shadow-lg); transition: var(--transition);
+                z-index: 999; gap: 0; overflow-y: auto;
+            }
+
+            .nav-links.active { right: 0; }
+            .nav-item { width: 100%; }
+            
+            .nav-link { padding: 18px 20px; border-bottom: 1px solid var(--border-color); border-radius: 0; justify-content: space-between; font-size: 1.05rem; }
+
+            .dropdown { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; border: none; background-color: var(--bg-light); display: none; padding-left: 20px; border-radius: 0; }
+            .nav-item.open .dropdown { display: block; }
+            
+            .hero-content h2 { font-size: 2.2rem; }
+            section { padding: 50px 0; }
+            .gate-overview, .student-home-feature { grid-template-columns: 1fr; gap: 24px; padding: 24px; }
+            .gate-banner-img, .student-feat-img { height: 280px; }
+            .gate-details { padding: 10px 0; }
+            .director-block { grid-template-columns: 1fr; gap: 32px; padding: 24px; }
+            .director-img { height: 350px; }
+            .infinite-gallery-track { animation-duration: 15s; }
+        }
+    </style>
+</head>
+<body class="theme-light">
+
+    <!-- TOP CONTROL CONTROL BAR -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-info">
+                <span><i class="fa-solid fa-phone"></i> +91 6200542129</span>
+                <span><i class="fa-solid fa-envelope"></i> info.cppschool@gmail.com</span>
+                <span><i class="fa-solid fa-location-dot"></i> Saharsa, Bihar</span>
+            </div>
+            <div class="top-actions">
+                <button class="lang-switch" onclick="toggleLanguage()"><i class="fa-solid fa-language"></i> <span id="lang-text">HINDI</span></button>
+                
+                <!-- MULTI-THEME SELECTOR DROPDOWN -->
+                <div style="position: relative; display: inline-block;">
+                    <button class="theme-select-btn" onclick="toggleThemeDropdown()"><i class="fa-solid fa-palette"></i> Theme</button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <button onclick="changeTheme('light')"><i class="fa-solid fa-sun"></i> Light Mode</button>
+                        <button onclick="changeTheme('dark')"><i class="fa-solid fa-moon"></i> Dark Mode</button>
+                        <button onclick="changeTheme('cyberpunk')"><i class="fa-solid fa-mask"></i> Cyberpunk</button>
+                        <button onclick="changeTheme('luxury')"><i class="fa-solid fa-crown"></i> Luxury Gold</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN BRAND CORE NAVIGATION -->
+    <header>
+        <div class="container main-nav">
+            <div class="logo-area" onclick="switchView('home-view')">
+                <img src="https://surveyheartmedia.s3.ap-south-1.amazonaws.com/files/c5147741a29f92f14076a39cd375d4/6a4fbf264e6c0454b2e5743f/sh_1783611451452.jpg" alt="CPPS Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1 data-en="Crescent Play & Public School" data-hi="क्रेसेंट प्ले एंड पब्लिक स्कूल">Crescent Play & Public School</h1>
+                    <p data-en="EDUCATION • DISCIPLINE • EXCELLENCE" data-hi="शिक्षा • अनुशासन • उत्कृष्टता">EDUCATION • DISCIPLINE • EXCELLENCE</p>
+                </div>
+            </div>
+            <div class="menu-toggle" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars"></i></div>
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li class="nav-item"><a href="#" class="nav-link" onclick="switchView('home-view')">Home</a></li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">About Us <i class="fa-solid fa-chevron-down"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="#" onclick="switchView('about-view')">Our Profile & Approval</a></li>
+                            <li><a href="#" onclick="switchView('director-view')">Director Message</a></li>
+                            <li><a href="#" onclick="switchView('infrastructure-view')">Infrastructure</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Admissions <i class="fa-solid fa-chevron-down"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="#" onclick="switchView('admission-info-view')">Procedure & Fees</a></li>
+                            <li><a href="#" onclick="switchView('online-admission-view')">Online Registration</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link" onclick="switchView('academics-view')">Academics</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" onclick="switchView('gallery-view')">Gallery</a></li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">More <i class="fa-solid fa-chevron-down"></i></a>
+                        <ul class="dropdown">
+                            <li><a href="#" onclick="switchView('portal-view', 'student')">Student Portal</a></li>
+                            <li><a href="#" onclick="switchView('portal-view', 'parent')">Parent Portal</a></li>
+                            <li><a href="#" onclick="switchView('portal-view', 'teacher')">Teacher Portal</a></li>
+                            <li><a href="#" onclick="switchView('contact-view')">Technical Desk</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- LIVE BULLETINS TICKER -->
+    <div class="notice-ticker">
+        <div class="ticker-title"><i class="fa-solid fa-bullhorn"></i> <span data-en="Latest Notices:" data-hi="नवीनतम सूचना:">Latest Notices:</span></div>
+        <div class="ticker-content">
+            <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
+                🚀 Admission Open for Academic Session 2026-27! Enroll now to secure dynamic smart learning. | 📅 Final Examination schedule and syllabus have been uploaded inside the Student Portal download grid.
+            </marquee>
+        </div>
+    </div>
+
+    <!-- VIEW 1: HOME MAIN INTERFACE DASHBOARD -->
+    <div id="home-view" class="view-content active-view">
+        <div class="hero-slider">
+            <div class="slide active" style="background-image: url('https://lh3.googleusercontent.com/gps-cs-s/APNQkAFEiUqmDUhxQNO03M1EF6kndy3CnvTr2xBTZ1StAwjB1gmT6Sa2SWLOXkriTRE-51f6pw3U8eE-zzNcI_noMdc7oh1I9QjggyKdjQv1xlXyQeI3KinWR4YEBTQgTU_8cKb5Q969=s1360-w1360-h1020-rw');">
+                <div class="container">
+                    <div class="hero-content">
+                        <h2 data-en="Welcome to Crescent Play & Public School" data-hi="क्रेसेंट प्ले एंड पब्लिक स्कूल में आपका स्वागत है">Welcome to Crescent Play & Public School</h2>
+                        <p>A grand premier educational landscape in Saharsa, Bihar. Offering exceptional intellectual development infrastructures.</p>
+                        <div class="cta-buttons">
+                            <button class="btn btn-primary" onclick="switchView('online-admission-view')"><i class="fa-solid fa-paper-plane"></i> Apply Online Now</button>
+                            <button class="btn btn-secondary" onclick="switchView('portal-view')"><i class="fa-solid fa-shield-halved"></i> Digital Campus Node</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=1920');">
+                <div class="container">
+                    <div class="hero-content">
+                        <h2>Next-Gen Smart Learning Systems</h2>
+                        <p>Empowering dynamic futuristic modules with separate analytical terminals for immersive technology optimization.</p>
+                        <div class="cta-buttons">
+                            <button class="btn btn-primary" onclick="switchView('gallery-view')">Explore Visual Gallery</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-dots">
+                <div class="dot active" onclick="setSlide(0)"></div>
+                <div class="dot" onclick="setSlide(1)"></div>
+            </div>
+        </div>
+
+        <!-- NEW: STUDENT EXCELLENCE MAIN HOME FEATURE -->
+        <section class="container" style="padding-top:60px; padding-bottom:30px;">
+            <div class="student-home-feature">
+                <div>
+                    <span style="color:var(--accent); font-weight:800; text-transform:uppercase; font-size:0.85rem; letter-spacing:2px; display:block; margin-bottom:10px;">Scholarly Landscape</span>
+                    <h3 style="font-family:'Playfair Display', serif; font-size:2.2rem; margin-bottom:20px; color:var(--primary);">Nurturing Global Achievers</h3>
+                    <p style="color:#64748B; text-align:justify; margin-bottom:20px;">At Crescent Play & Public School, our dynamic students thrive within comprehensive mental and physical learning frameworks designed to achieve complete future success parameters.</p>
+                    <button class="btn btn-primary" onclick="switchView('academics-view')">View Blueprints</button>
+                </div>
+                <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlmYTLYSaYf5QP4484BU7sjE4InEK6BL_UMOtTmaolOoaMWpUyoIKexNIAr-XXtdXjI_WfovS4WGmhRp9d11jljYVML_k9em-TVuNUAAhtlsoKmP73T_EVjAff4jwL49oG1ZIGs=w141-h101-n-k-no-nu" alt="Student Core Panel Image" class="student-feat-img">
+            </div>
+        </section>
+
+        <!-- INFINITE SCROLL PREVIEW GALLERY GRID -->
+        <div class="infinite-gallery-wrapper">
+            <div class="infinite-gallery-track">
+                <!-- Set 1 -->
+                <div class="scroll-img-card"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlyckry4hxWe3h_wWXDLy0tYo_UGgncjoPnvwKCawkVw9tDFDKDIHhbJvs3uE1C2WY_1DPyJsTKEGPCITRJr1_H9Jywk4_yKmQyG_mJUG_xQKmoP-ehejF4InpRlWhtKaSuZWQN=s1360-w1360-h1020-rw" alt="Gallery Item"></div>
+                <div class="scroll-img-card"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlHn9zF0feaUOvxG5LxmILVG5bnsE8DnbUYSrM3gFeR34hnwkjTcVnGKY2WInCLEqj5BTjUe2u8l_KulWv97QI2tLrnK2LJsbou_wtSmXKkNwVcLthJerh7XDYxSX9N6myta4Bg=s1360-w1360-h1020-rw" alt="Gallery Item"></div>
+                <div class="scroll-img-card"><img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHBseCplv51861hagi_jF0xRVe9G1qs3FExMs8Q94p3LZjlBJwqr4bXeysrD5OQ8qa-LSVv9Z5s0q6nFnYoTgnnz-p3aRBwQ07RTrmuyQH1UODpDTjVW9SyxFvUfg-kcwagqJoeDQ=s1360-w1360-h1020-rw" alt="Gallery Item"></div>
+                <div class="scroll-img-card"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlmYTLYSaYf5QP4484BU7sjE4InEK6BL_UMOtTmaolOoaMWpUyoIKexNIAr-XXtdXjI_WfovS4WGmhRp9d11jljYVML_k9em-TVuNUAAhtlsoKmP73T_EVjAff4jwL49oG1ZIGs=w141-h101-n-k-no-nu" alt="Gallery Item"></div>
+                <div class="scroll-img-card"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmDB3ed16aLBFlYfX11UGWb-G0-qVbgbwuB8lnGaECEq1EAUSqO8630oHrWNj9_XrALDe7R5go4bTzrRzaVcZqIO9MEo8EBE0SGM7tOKmxnv9kGC0b4D70ZnlvaxM20CsTZ__Ozyg=s1360-w1360-h1020-rw" alt="Gallery Item"></div>
+                <div class="scroll-img-card"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlXjBijS-mJWLJY6y53OhzfeiwNQR1GPcGjRhkf4f9i-z6DPBMA8hoSaNfwSBZR-zw27MHlMOJEplx398l_Dkq8v9gtklOJEqmb7dWeg9WLKfpMAz6FfTfeTE3Q0on7LqoNKcj2=s1360-w1360-h1020-rw" alt="Gallery Item"></div>
+                <!-- Set 2 Duplicate For Infinite Loop Loops -->
+                <div class="scroll-img-card"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlyckry4hxWe3h_wWXDLy0tYo_UGgncjoPnvwKCawkVw9tDFDKDIHhbJvs3uE1C2WY_1DPyJsTKEGPCITRJr1_H9Jywk4_yKmQyG_mJUG_xQKmoP-ehejF4InpRlWhtKaSuZWQN=s1360-w1360-h1020-rw" alt="Gallery Item"></div>
+                <div class="scroll-img-card"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlHn9zF0feaUOvxG5LxmILVG5bnsE8DnbUYSrM3gFeR34hnwkjTcVnGKY2WInCLEqj5BTjUe2u8l_KulWv97QI2tLrnK2LJsbou_wtSmXKkNwVcLthJerh7XDYxSX9N6myta4Bg=s1360-w1360-h1020-rw" alt="Gallery Item"></div>
+                <div class="scroll-img-card"><img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHBseCplv51861hagi_jF0xRVe9G1qs3FExMs8Q94p3LZjlBJwqr4bXeysrD5OQ8qa-LSVv9Z5s0q6nFnYoTgnnz-p3aRBwQ07RTrmuyQH1UODpDTjVW9SyxFvUfg-kcwagqJoeDQ=s1360-w1360-h1020-rw" alt="Gallery Item"></div>
+                <div class="scroll-img-card"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlmYTLYSaYf5QP4484BU7sjE4InEK6BL_UMOtTmaolOoaMWpUyoIKexNIAr-XXtdXjI_WfovS4WGmhRp9d11jljYVML_k9em-TVuNUAAhtlsoKmP73T_EVjAff4jwL49oG1ZIGs=w141-h101-n-k-no-nu" alt="Gallery Item"></div>
+                <div class="scroll-img-card"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmDB3ed16aLBFlYfX11UGWb-G0-qVbgbwuB8lnGaECEq1EAUSqO8630oHrWNj9_XrALDe7R5go4bTzrRzaVcZqIO9MEo8EBE0SGM7tOKmxnv9kGC0b4D70ZnlvaxM20CsTZ__Ozyg=s1360-w1360-h1020-rw" alt="Gallery Item"></div>
+                <div class="scroll-img-card"><img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlXjBijS-mJWLJY6y53OhzfeiwNQR1GPcGjRhkf4f9i-z6DPBMA8hoSaNfwSBZR-zw27MHlMOJEplx398l_Dkq8v9gtklOJEqmb7dWeg9WLKfpMAz6FfTfeTE3Q0on7LqoNKcj2=s1360-w1360-h1020-rw" alt="Gallery Item"></div>
+            </div>
+        </div>
+
+        <!-- School Gate Showcase & Brief Core Overview -->
+        <section class="container">
+            <div class="gate-overview">
+                <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFEiUqmDUhxQNO03M1EF6kndy3CnvTr2xBTZ1StAwjB1gmT6Sa2SWLOXkriTRE-51f6pw3U8eE-zzNcI_noMdc7oh1I9QjggyKdjQv1xlXyQeI3KinWR4YEBTQgTU_8cKb5Q969=s1360-w1360-h1020-rw" alt="CPPS Campus Gate" class="gate-banner-img">
+                <div class="gate-details">
+                    <span style="color:var(--accent); font-weight:800; text-transform:uppercase; font-size:0.85rem; letter-spacing:2px; display:block; margin-bottom:10px;">Secure Campus Entry</span>
+                    <h3 style="font-family:'Playfair Display', serif; font-size:2.2rem; margin-bottom:20px; color:var(--primary);">Our High-Security Institutional Infrastructure</h3>
+                    <p style="color:#64748B; margin-bottom:24px; text-align:justify;">Crescent Play & Public School features a highly standard structured main gateway layout designed for maximum student protection and comprehensive observation tracking. Our perimeter parameters remain 100% CCTV synchronized.</p>
+                    <button class="btn btn-primary" onclick="switchView('about-view')">Read Affiliation Profile</button>
+                </div>
+            </div>
+
+            <!-- Scholar Board Toppers Module -->
+            <div class="section-header" style="margin-top:40px; margin-bottom:30px;">
+                <h2>Scholars Hall of Fame</h2>
+                <p>Recognizing top intellectual configurations from historic metric cycles</p>
+            </div>
+            <div class="toppers-scroller">
+                <div class="topper-card">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200" alt="Topper" class="topper-avatar">
+                    <h4 style="color:var(--primary); font-weight:700;">Aman Raj</h4>
+                    <p style="color:var(--accent); font-weight:700; font-size:0.9rem; margin-bottom:6px;">98.2% - CBSE Matrix</p>
+                    <span style="font-size:0.8rem; color:#64748B;">Session 2024-25</span>
+                </div>
+                <div class="topper-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200" alt="Topper" class="topper-avatar">
+                    <h4 style="color:var(--primary); font-weight:700;">Priya Kumari</h4>
+                    <p style="color:var(--accent); font-weight:700; font-size:0.9rem; margin-bottom:6px;">96.8% - Board Merit</p>
+                    <span style="font-size:0.8rem; color:#64748B;">Session 2024-25</span>
+                </div>
+                <div class="topper-card">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=200" alt="Topper" class="topper-avatar">
+                    <h4 style="color:var(--primary); font-weight:700;">Md. Zaid</h4>
+                    <p style="color:var(--accent); font-weight:700; font-size:0.9rem; margin-bottom:6px;">95.4% - Rank Holder</p>
+                    <span style="font-size:0.8rem; color:#64748B;">Session 2024-25</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metric Numbers Segment -->
+        <section class="stats-section">
+            <div class="container grid-3">
+                <div class="stat-item"><h3>100%</h3><p>Success Configuration</p></div>
+                <div class="stat-item"><h3>25+</h3><p>Certified Instructors</p></div>
+                <div class="stat-item"><h3>15+</h3><p>Smart Core Panels</p></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- VIEW 2: ABOUT DETAILS & LEGAL BOARDS -->
+    <div id="about-view" class="view-content">
+        <section class="container">
+            <div class="section-header">
+                <h2>Our Profile & Affiliation</h2>
+                <p>Sri Govind Singh Educational & Welfare Trust Managing Framework</p>
+            </div>
+            
+            <div class="verification-badge">
+                <h3 style="color: var(--accent); font-size: 1.6rem; margin-bottom: 12px;"><i class="fa-solid fa-building-shield"></i> Government Recognition & Validity</h3>
+                <p>Crescent Play & Public School is fully recognized and operating under legal guidelines authorized by the regulatory frameworks.</p>
+                
+                <div class="verification-grid">
+                    <div class="v-item">
+                        <i class="fa-solid fa-gavel"></i>
+                        <h4>Affiliation Body</h4>
+                        <span style="font-size:0.9rem; color:#e2e8f0;">Education Dept, Govt. of Bihar</span>
+                    </div>
+                    <div class="v-item">
+                        <i class="fa-solid fa-id-card"></i>
+                        <h4>Registration Number</h4>
+                        <code>214117420211225115410</code>
+                    </div>
+                    <div class="v-item">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <h4>Academic Session</h4>
+                        <span style="font-size:0.9rem; color:#e2e8f0;">Valid for 2026-2027</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 35px;">
+                <h3>Core Institutional Mission</h3>
+                <p>We drive multi-disciplinary co-educational configurations spanning Play Group up to Class X using an optimized English Medium layout structured on comprehensive metrics to deliver excellence across Saharsa district.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- VIEW: DIRECTOR STATEMENT (UPDATED WITH AMIT KUMAR PROFILE) -->
+    <div id="director-view" class="view-content">
+        <section class="container">
+            <div class="section-header">
+                <h2>Message From Director Desk</h2>
+                <p>Leadership insights on modern institutional growth paradigms [source: 1]</p>
+            </div>
+            <div class="director-block">
+                <div class="director-img-container">
+                    <img src="https://surveyheartmedia.s3.ap-south-1.amazonaws.com/files/c5147741a29f92f14076a39cd375d4/6a4fbf264e6c0454b2e5743f/sh_1783656407114.jpg" alt="Amit Kumar - Managing Director" class="director-img">
+                    <div class="director-badge">
+                        <h4>Amit Kumar</h4>
+                        <p style="color: white; opacity: 0.9; font-size: 0.85rem; font-weight:600;">M.A., B.ed [source: 1]</p>
+                    </div>
+                </div>
+                <div>
+                    <i class="fa-solid fa-quote-left" style="font-size: 2.5rem; color: var(--accent); opacity: 0.6; display:block; margin-bottom:15px;"></i>
+                    <h3 style="margin-bottom: 16px; color: var(--primary);">Dear Parents & Scholars,</h3>
+                    <p style="margin-bottom: 16px; text-align: justify;">Education is not merely the acquisition of facts but the initiation of the mind to think logically. At Crescent Play & Public School, our dynamic digital frameworks work hand-in-hand with value systems to shape standard operational excellence in young minds.</p>
+                    <p style="margin-bottom: 24px; text-align: justify;">We ensure that every child passing through our gates receives rich attention backed by modern computational infrastructures, smart interactive tools, and highly verified safe learning parameters.</p>
+                    
+                    <p style="font-weight: 700; color: var(--primary);">Best Wishes,</p>
+                    <!-- INTEGRATED LIVE SIGNATURE HERE -->
+                    <img src="https://surveyheartmedia.s3.ap-south-1.amazonaws.com/files/c5147741a29f92f14076a39cd375d4/69eba4b91fdb9c954f8804d4/sh_1781333996599.jpg" alt="Amit Kumar Signature" class="director-signature">
+                    <p style="font-weight: 700; color: var(--accent); margin-top:5px;">Managing Director <br><small style="color:var(--text-dark); opacity:0.7;">CPPS Framework</small></p> [source: 1]
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- VIEW: VISUAL GALLERY -->
+    <div id="gallery-view" class="view-content">
+        <section class="container">
+            <div class="section-header">
+                <h2>Campus Visual Gallery</h2>
+                <p>A sneak peek into the events, celebrations, and framework milestones of CPPS</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlyckry4hxWe3h_wWXDLy0tYo_UGgncjoPnvwKCawkVw9tDFDKDIHhbJvs3uE1C2WY_1DPyJsTKEGPCITRJr1_H9Jywk4_yKmQyG_mJUG_xQKmoP-ehejF4InpRlWhtKaSuZWQN=s1360-w1360-h1020-rw" alt="Visual 1">
+                    <div class="gallery-overlay"><h4>Dynamic Campus Operations</h4></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlHn9zF0feaUOvxG5LxmILVG5bnsE8DnbUYSrM3gFeR34hnwkjTcVnGKY2WInCLEqj5BTjUe2u8l_KulWv97QI2tLrnK2LJsbou_wtSmXKkNwVcLthJerh7XDYxSX9N6myta4Bg=s1360-w1360-h1020-rw" alt="Visual 2">
+                    <div class="gallery-overlay"><h4>Smart Practical Interactive Modules</h4></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHBseCplv51861hagi_jF0xRVe9G1qs3FExMs8Q94p3LZjlBJwqr4bXeysrD5OQ8qa-LSVv9Z5s0q6nFnYoTgnnz-p3aRBwQ07RTrmuyQH1UODpDTjVW9SyxFvUfg-kcwagqJoeDQ=s1360-w1360-h1020-rw" alt="Visual 3">
+                    <div class="gallery-overlay"><h4>Advanced Compute Infrastructure</h4></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlmYTLYSaYf5QP4484BU7sjE4InEK6BL_UMOtTmaolOoaMWpUyoIKexNIAr-XXtdXjI_WfovS4WGmhRp9d11jljYVML_k9em-TVuNUAAhtlsoKmP73T_EVjAff4jwL49oG1ZIGs=w141-h101-n-k-no-nu" alt="Visual 4">
+                    <div class="gallery-overlay"><h4>Analytical Student Matrix</h4></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWmDB3ed16aLBFlYfX11UGWb-G0-qVbgbwuB8lnGaECEq1EAUSqO8630oHrWNj9_XrALDe7R5go4bTzrRzaVcZqIO9MEo8EBE0SGM7tOKmxnv9kGC0b4D70ZnlvaxM20CsTZ__Ozyg=s1360-w1360-h1020-rw" alt="Visual 5">
+                    <div class="gallery-overlay"><h4>Syllabus Milestone Celebrations</h4></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlXjBijS-mJWLJY6y53OhzfeiwNQR1GPcGjRhkf4f9i-z6DPBMA8hoSaNfwSBZR-zw27MHlMOJEplx398l_Dkq8v9gtklOJEqmb7dWeg9WLKfpMAz6FfTfeTE3Q0on7LqoNKcj2=s1360-w1360-h1020-rw" alt="Visual 6">
+                    <div class="gallery-overlay"><h4>Elite Security Main Entrance</h4></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- VIEW: FEES STRUCTURE -->
+    <div id="admission-info-view" class="view-content">
+        <section class="container">
+            <div class="section-header">
+                <h2>Procedure & Fee Matrix</h2>
+                <p>Standard structures for Academic Year 2026</p>
+            </div>
+            <div class="data-table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Grade Category</th>
+                            <th>Registration Fee</th>
+                            <th>Monthly Tuition Fee</th>
+                            <th>Smart Learning Add-on</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><b>Play Group / Nursery / LKG / UKG</b></td><td>₹500</td><td>₹800</td><td><span style="color:#10B981; font-weight:600;">Included</span></td></tr>
+                        <tr><td><b>Class I to V</b></td><td>₹1000</td><td>₹1200</td><td>₹150</td></tr>
+                        <tr><td><b>Class VI to X</b></td><td>₹1500</td><td>₹1800</td><td>₹200</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- VIEW: ADMISSION REGISTRATION FORM -->
+    <div id="online-admission-view" class="view-content">
+        <section class="container">
+            <div class="section-header">
+                <h2>Online Registration Portal</h2>
+                <p>Submit details to initiate the backend parsing sequence</p>
+            </div>
+            <div class="portal-section">
+                <form class="mock-form" id="admissionForm" onsubmit="handleAdmissionSubmit(event)">
+                    <div class="form-group">
+                        <label>Student Full Name</label>
+                        <input type="text" id="adm-name" required placeholder="Enter student name">
+                    </div>
+                    <div class="form-group">
+                        <label>Target Grade / Class</label>
+                        <select id="adm-class" required>
+                            <option value="">Select Target Class</option>
+                            <option value="Nursery">Nursery / Play Group</option>
+                            <option value="LKG">LKG / UKG</option>
+                            <option value="Primary">Class I to V</option>
+                            <option value="Middle">Class VI to X</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Parent/Guardian Phone</label>
+                        <input type="tel" id="adm-phone" required placeholder="10-digit mobile number">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Registration Form</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- VIEW: ACADEMICS CORE -->
+    <div id="academics-view" class="view-content">
+        <section class="container">
+            <div class="section-header">
+                <h2>Academic Programs</h2>
+                <p>Rigorous blueprints mapped to modern developmental benchmarks</p>
+            </div>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-child-reaching"></i></div>
+                    <h3>Pre-Primary Pipeline</h3>
+                    <p>Activity-based sensory modules engineered specifically to build foundational linguistics, operational kinetics, and cognitive logic.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+                    <h3>Primary Framework</h3>
+                    <p>Focuses deeply on quantitative analytical concepts, multi-language literacy parameters, and early scientific exploration paths.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-flask-vial"></i></div>
+                    <h3>Secondary Core</h3>
+                    <p>Advanced standard curriculum matching Board standards, emphasizing targeted algorithmic mathematics and logical science labs.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- VIEW: INFRASTRUCTURE METRICS -->
+    <div id="infrastructure-view" class="view-content">
+        <section class="container">
+            <div class="section-header">
+                <h2>Campus Infrastructure</h2>
+                <p>Advanced environments configured for high performance safety and exploration</p>
+            </div>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-book"></i></div>
+                    <h3>Digital Library System</h3>
+                    <p>Complete indexing with expansive text access configurations for research pipelines.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-network-wired"></i></div>
+                    <h3>Computational Center</h3>
+                    <p>High speed networking architecture with separate student practice terminals.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-faucet-drip"></i></div>
+                    <h3>Clean Water Network</h3>
+                    <p>Integrated RO purification grids backed by recurring systemic testing runs.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- VIEW: INTEGRATED CAMPUS ERP PORTALS -->
+    <div id="portal-view" class="view-content">
+        <section class="container">
+            <div class="section-header">
+                <h2>Campus ERP Operations</h2>
+                <p>Secure login gateways for accessing real-time metrics and databases</p>
+            </div>
+            <div class="portal-section">
+                <div class="portal-tabs">
+                    <button class="tab-btn active" id="tab-student" onclick="switchPortalTab('student')">Student Portal</button>
+                    <button class="tab-btn" id="tab-parent" onclick="switchPortalTab('parent')">Parent Portal</button>
+                    <button class="tab-btn" id="tab-teacher" onclick="switchPortalTab('teacher')">Teacher Portal</button>
+                </div>
+
+                <div id="pane-student" class="portal-pane active">
+                    <form class="mock-form" onsubmit="handlePortalLogin(event, 'Student')">
+                        <div class="form-group"><label>Student Admission ID</label><input type="text" placeholder="CPPS/2026/XXXX" required></div>
+                        <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••" required></div>
+                        <button type="submit" class="btn btn-primary">Login to Workspace</button>
+                    </form>
+                </div>
+
+                <div id="pane-parent" class="portal-pane">
+                    <form class="mock-form" onsubmit="handlePortalLogin(event, 'Parent')">
+                        <div class="form-group"><label>Registered Mobile Number</label><input type="tel" placeholder="Enter parent mobile" required></div>
+                        <div class="form-group"><label>Verification PIN</label><input type="password" placeholder="••••" required></div>
+                        <button type="submit" class="btn btn-primary">Access Dashboard</button>
+                    </form>
+                </div>
+
+                <div id="pane-teacher" class="portal-pane">
+                    <form class="mock-form" onsubmit="handlePortalLogin(event, 'Teacher')">
+                        <div class="form-group"><label>Faculty Identity Token</label><input type="text" placeholder="TCH-XXXX" required></div>
+                        <div class="form-group"><label>Security Key</label><input type="password" placeholder="••••••••" required></div>
+                        <button type="submit" class="btn btn-primary">Initialize Console</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- VIEW: CONTACT INTERFACES -->
+    <div id="contact-view" class="view-content">
+        <section class="container">
+            <div class="section-header">
+                <h2>Contact Technical Desk</h2>
+                <p>Connect with our administrative headquarters directly</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+                <div class="card">
+                    <h3>Official Headquarters</h3>
+                    <p style="margin-bottom: 16px;"><i class="fa-solid fa-map-location-dot" style="color:var(--accent); margin-right:8px;"></i> New Colony, Ward No. 09/13, Sarahi Road, Saharsa, Bihar – 852202</p>
+                    <p style="margin-bottom: 16px;"><i class="fa-solid fa-phone-volume" style="color:var(--accent); margin-right:8px;"></i> +91 6200542129, WhatsApp: 7004931491</p>
+                    <p><i class="fa-solid fa-envelope-open" style="color:var(--accent); margin-right:8px;"></i> info.cppschool@gmail.com</p>
+                </div>
+                <div class="card">
+                    <h3>Send Instant Signal</h3>
+                    <form class="mock-form" style="max-width:100%;" onsubmit="alert('Message parsed successfully!'); event.preventDefault();">
+                        <div class="form-group"><input type="text" placeholder="Your Name" required></div>
+                        <div class="form-group"><input type="email" placeholder="Your Email Address" required></div>
+                        <div class="form-group"><textarea placeholder="Your Message" rows="4" required></textarea></div>
+                        <button type="submit" class="btn btn-primary">Transmit Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- BRAND FOOTER ARCHITECTURE -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4>CPPS Hub</h4>
+                <p style="font-size: 0.85rem; line-height:1.8;">Managed comprehensively by Sri Govind Singh Educational & Welfare Trust. Empowering digital academic landscapes across Bihar.</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/share/1CsyjRbysZ/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/cppschool1?igsh=MXduM3UxNXFseTFteg==" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://m.youtube.com/%40cpps" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Navigation</h4>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="switchView('home-view')">Home Dashboard</a></li>
+                    <li><a href="#" onclick="switchView('about-view')">Institutional Profile</a></li>
+                    <li><a href="#" onclick="switchView('admission-info-view')">Fee Structure Matrix</a></li>
+                    <li><a href="#" onclick="switchView('gallery-view')">Visual Gallery</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Academics & Portals</h4>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="switchView('academics-view')">Program Blueprints</a></li>
+                    <li><a href="#" onclick="switchView('portal-view', 'student')">Student Node</a></li>
+                    <li><a href="#" onclick="switchView('portal-view', 'parent')">Parent Node</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Security Verification</h4>
+                <p style="font-size: 0.8rem; margin-bottom: 12px;">Reg No: 214117420211225115410</p>
+                <!-- DYNAMIC QR VERIFY TRIGGER ACTIVE -->
+                <div onclick="openVerificationModal()" style="background-color:rgba(255,255,255,0.03); padding:16px; border-radius:var(--radius-sm); text-align:center; border: 1px solid rgba(255,255,255,0.08); cursor:pointer; transition:var(--transition);" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
+                    <i class="fa-solid fa-qrcode" style="font-size:2rem; color:var(--accent);"></i>
+                    <p style="font-size:0.75rem; margin-top:8px; color:#94A3B8; font-weight:700;">Click to Verify Portal</p>
+                </div>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Crescent Play & Public School. All Rights Reserved.</p>
+            <p>System Architecture via Gemini Engine</p>
+        </div>
+    </footer>
+
+    <!-- LIVE POPUP QR MODAL PORTAL WINDOW -->
+    <div class="qr-modal" id="verifyModal">
+        <div class="qr-modal-content">
+            <i class="fa-solid fa-circle-check" style="color:#10B981; font-size:3.5rem; margin-bottom:15px;"></i>
+            <h3 style="color:var(--text-dark); font-family:'Playfair Display', serif; margin-bottom:10px;">Security Verification Portal</h3>
+            <p style="font-size:0.9rem; color:#64748B; margin-bottom:20px;">This digital certificate confirms that Crescent Play & Public School is operating legally under Reg No. <b>214117420211225115410</b>.</p>
+            <div style="background:#f1f5f9; padding:15px; border-radius:10px; margin-bottom:20px; text-align:left; font-size:0.85rem;">
+                Status: <span style="color:#10B981; font-weight:700;">● ACTIVE & SECURE</span><br>
+                Encryption Matrix: 256-Bit SSL Secured Node<br>
+                Session Hash: Certified Academic Framework 2026-27
+            </div>
+            <button class="btn btn-primary" onclick="closeVerificationModal()" style="padding:10px 24px;">Close Terminal</button>
+        </div>
+    </div>
+
+    <!-- DUAL FLOATING INTERACTION ACTIONS -->
+    <div class="floating-triggers">
+        <a href="https://wa.me/917004931491" target="_blank" class="whatsapp-btn"><i class="fa-brands fa-whatsapp"></i></a>
+        <div class="ai-chat-btn" onclick="toggleAIChat()"><i class="fa-solid fa-robot"></i></div>
+        
+        <div class="ai-chat-window" id="aiChatWindow">
+            <div class="ai-chat-header">
+                <span><i class="fa-solid fa-circle-nodes"></i> CPPS Smart AI Assistant</span>
+                <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="toggleAIChat()"></i>
+            </div>
+            <div class="ai-chat-body" id="chatBody">
+                <div class="chat-msg bot">Hello! Welcome to CPPS Digital System. How can I assist you with Gate Security, Admissions, Fees structure or Scholar profiles today?</div>
+            </div>
+            <div class="ai-chat-input">
+                <input type="text" id="chatInput" placeholder="Type query here..." onkeypress="if(event.key === 'Enter') sendChatMessage()">
+                <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGICAL EXECUTION FRAMEWORK -->
+    <script>
+        // Hero Dynamic Slides Logic
+        let activeSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function setSlide(index) {
+            slides[activeSlide].classList.remove('active');
+            dots[activeSlide].classList.remove('active');
+            activeSlide = index;
+            slides[activeSlide].classList.add('active');
+            dots[activeSlide].classList.add('active');
+        }
+
+        setInterval(() => {
+            let next = (activeSlide + 1) % slides.length;
+            setSlide(next);
+        }, 6500);
+
+        // Advanced View Switcher Engine
+        function switchView(viewId, portalTab = null) {
+            const views = document.querySelectorAll('.view-content');
+            views.forEach(view => {
+                view.classList.remove('active-view');
+            });
+            
+            const targetView = document.getElementById(viewId);
+            if(targetView) {
+                targetView.classList.add('active-view');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            if(viewId === 'portal-view' && portalTab) {
+                switchPortalTab(portalTab);
+            }
+
+            document.getElementById('navLinks').classList.remove('active');
+        }
+
+        // Mobile Responsive Toggle Drawer Menu
+        function toggleMobileMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if(window.innerWidth <= 992 && this.querySelector('.dropdown')) {
+                    this.classList.toggle('open');
+                }
+            });
+        });
+
+        // ERP Tab Swapper
+        function switchPortalTab(role) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.portal-pane').forEach(pane => pane.classList.remove('active'));
+
+            document.getElementById(`tab-${role}`).classList.add('active');
+            document.getElementById(`pane-${role}`).classList.add('active');
+        }
+
+        // Localization Controls
+        let localLanguage = 'en';
+        function toggleLanguage() {
+            localLanguage = localLanguage === 'en' ? 'hi' : 'en';
+            document.getElementById('lang-text').innerText = localLanguage === 'en' ? 'HINDI' : 'ENGLISH';
+            
+            const translatableElements = document.querySelectorAll('[data-en]');
+            translatableElements.forEach(el => {
+                el.innerText = el.getAttribute(`data-${localLanguage}`);
+            });
+        }
+
+        // MULTI-THEME SELECT ENGINE INTERFACE
+        function toggleThemeDropdown() {
+            const dd = document.getElementById('themeDropdown');
+            dd.style.display = dd.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function changeTheme(themeName) {
+            document.body.className = ''; 
+            document.body.classList.add(`theme-${themeName}`);
+            document.getElementById('themeDropdown').style.display = 'none';
+        }
+
+        // Close dropdown when clicked outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.theme-select-btn')) {
+                const dropdowns = document.getElementsByClassName("theme-dropdown");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    dropdowns[i].style.display = "none";
+                }
+            }
+        }
+
+        // Verification Modal System Controls
+        function openVerificationModal() {
+            document.getElementById('verifyModal').style.display = 'flex';
+        }
+        function closeVerificationModal() {
+            document.getElementById('verifyModal').style.display = 'none';
+        }
+
+        // AI Assistant Parsing Framework
+        function toggleAIChat() {
+            const chatWin = document.getElementById('aiChatWindow');
+            chatWin.style.display = (chatWin.style.display === 'none' || chatWin.style.display === '') ? 'flex' : 'none';
+        }
+
+        function sendChatMessage() {
+            const inputField = document.getElementById('chatInput');
+            const messageText = inputField.value.trim();
+            if(!messageText) return;
+
+            const chatBody = document.getElementById('chatBody');
+            const userNode = document.createElement('div');
+            userNode.className = 'chat-msg user';
+            userNode.innerText = messageText;
+            chatBody.appendChild(userNode);
+            
+            inputField.value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            setTimeout(() => {
+                const botNode = document.createElement('div');
+                botNode.className = 'chat-msg bot';
+                const query = messageText.toLowerCase();
+                
+                if(query.includes('admission') || query.includes('apply') || query.includes('form')) {
+                    botNode.innerText = "Processing redirection protocols for Registration Portal Panel.";
+                    switchView('online-admission-view');
+                } else if(query.includes('fee') || query.includes('structure') || query.includes('tuition')) {
+                    botNode.innerText = "Opening standard school Fee Structure matrix window.";
+                    switchView('admission-info-view');
+                } else if(query.includes('gate') || query.includes('campus') || query.includes('security')) {
+                    botNode.innerText = "Showing our highly standard gate security infrastructure architecture layout.";
+                    switchView('home-view');
+                } else if(query.includes('login') || query.includes('portal') || query.includes('erp')) {
+                    botNode.innerText = "Initializing secure campus node login protocols.";
+                    switchView('portal-view');
+                } else {
+                    botNode.innerText = "I can guide you to 'Gate Infrastructure', 'Admissions', 'Fees Structure' or 'Campus ERP Login'. Let me know!";
+                }
+                chatBody.appendChild(botNode);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 550);
+        }
+
+        function handleAdmissionSubmit(e) {
+            e.preventDefault();
+            const studentName = document.getElementById('adm-name').value;
+            alert(`Validated! Registration entry generated successfully for "${studentName}".`);
+        }
+
+        function handlePortalLogin(e, role) {
+            e.preventDefault();
+            alert(`Security verified. ${role} workspace dashboard simulation activated.`);
+        }
+    </script>
+</body>
+</html>
