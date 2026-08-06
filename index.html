@@ -1149,45 +1149,87 @@
         </section>
     </div>
 
-    <!-- VIEW 9: WORKSPACE PORTALS NODE -->
-    <div id="portal-view" class="view-content">
-        <section class="container">
-            <div class="section-header">
-                <h2>Campus ERP Operations</h2>
-                <p>Secure login gateways for accessing real-time metrics and databases</p>
-            </div>
-            <div class="portal-section">
-                <div class="portal-tabs">
-                    <button class="tab-btn active" id="tab-student" onclick="switchPortalTab('student')">Student Portal</button>
-                    <button class="tab-btn" id="tab-parent" onclick="switchPortalTab('parent')">Parent Portal</button>
-                    <button class="tab-btn" id="tab-teacher" onclick="switchPortalTab('teacher')">Teacher Portal</button>
-                </div>
+<!-- VIEW 9: WORKSPACE PORTALS NODE -->
+<div id="portal-view" class="view-content">
+    <section class="container">
+        <div class="section-header">
+            <h2>Campus ERP Operations</h2>
+            <p>Secure login gateways for accessing real-time metrics and databases</p>
+        </div>
 
-                <div id="pane-student" class="portal-pane active">
-                    <form class="mock-form" onsubmit="handlePortalLogin(event, 'Student')">
-                        <div class="form-group"><label>Student Admission ID</label><input type="text" placeholder="CPPS/2026/XXXX" required></div>
-                        <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••" required></div>
-                        <button type="submit" class="btn btn-primary">Login to Workspace</button>
-                    </form>
-                </div>
-                <div id="pane-parent" class="portal-pane">
-                    <form class="mock-form" onsubmit="handlePortalLogin(event, 'Parent')">
-                        <div class="form-group"><label>Registered Mobile Number</label><input type="tel" placeholder="Enter parent mobile" required></div>
-                        <div class="form-group"><label>Verification PIN</label><input type="password" placeholder="••••" required></div>
-                        <button type="submit" class="btn btn-primary">Access Dashboard</button>
-                    </form>
-                </div>
-                <div id="pane-teacher" class="portal-pane">
-                    <form class="mock-form" onsubmit="handlePortalLogin(event, 'Teacher')">
-                        <div class="form-group"><label>Faculty Identity Token</label><input type="text" placeholder="TCH-XXXX" required></div>
-                        <div class="form-group"><label>Security Key</label><input type="password" placeholder="••••••••" required></div>
-                        <button type="submit" class="btn btn-primary">Initialize Console</button>
-                    </form>
-                </div>
+        <div class="portal-section">
+            <div class="portal-tabs">
+                <button class="tab-btn active" id="tab-student" onclick="switchPortalTab('student')">Student Portal</button>
+                <button class="tab-btn" id="tab-parent" onclick="switchPortalTab('parent')">Parent Portal</button>
+                <button class="tab-btn" id="tab-teacher" onclick="switchPortalTab('teacher')">Teacher Portal</button>
             </div>
-        </section>
-    </div>
 
+            <!-- Student Portal -->
+            <div id="pane-student" class="portal-pane active">
+                <form class="mock-form"
+                      action="https://enterprise-edu-hub-2.preview.emergentagent.com/"
+                      method="get"
+                      target="_blank">
+
+                    <div class="form-group">
+                        <label>Student Admission ID</label>
+                        <input type="text" placeholder="CPPS/2026/XXXX" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Login to Workspace</button>
+                </form>
+            </div>
+
+            <!-- Parent Portal -->
+            <div id="pane-parent" class="portal-pane">
+                <form class="mock-form"
+                      action="https://enterprise-edu-hub-2.preview.emergentagent.com/"
+                      method="get"
+                      target="_blank">
+
+                    <div class="form-group">
+                        <label>Registered Mobile Number</label>
+                        <input type="tel" placeholder="Enter parent mobile" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Verification PIN</label>
+                        <input type="password" placeholder="••••" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Access Dashboard</button>
+                </form>
+            </div>
+
+            <!-- Teacher Portal -->
+            <div id="pane-teacher" class="portal-pane">
+                <form class="mock-form"
+                      action="https://enterprise-edu-hub-2.preview.emergentagent.com/"
+                      method="get"
+                      target="_blank">
+
+                    <div class="form-group">
+                        <label>Faculty Identity Token</label>
+                        <input type="text" placeholder="TCH-XXXX" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Security Key</label>
+                        <input type="password" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Initialize Console</button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+</div>
     <!-- VIEW 10: CONTACT TECH DESK -->
     <div id="contact-view" class="view-content">
         <section class="container">
