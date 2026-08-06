@@ -1459,7 +1459,10 @@
             alert(`Entry generated successfully for "${document.getElementById('adm-name').value} ${document.getElementById('adm-lastname').value}". Admissions officer will contact you on ${phoneInput} soon.`);
             document.getElementById('admissionForm').reset();
         }
-
+function handlePortalLogin(event, userType) {
+    event.preventDefault();
+    window.open("https://enterprise-edu-hub-2.preview.emergentagent.com/", "_blank");
+}
         function handlePortalLogin(e, role) {
             e.preventDefault();
             alert(`Security verified. Simulated ${role} environment activated.`);
